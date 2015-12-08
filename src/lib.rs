@@ -11,36 +11,50 @@ const CHARMAP: [u8; 64] = [
 
 #[test]
 fn it_works() {
-    print!("\n");
+    print!("\nEncode");
 
     let string = "Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure. ";
     let bytes = string.as_bytes();
-    let mut out: Vec<u8> = Vec::new();
+    let mut edata: Vec<u8> = Vec::new();
     for b in bytes.chunks(3) {
-        // print!("{:?}\n", c);
         let word: u32 =
             ((b[0] as u32) << 16) |
             ((b[1] as u32) << 8) |
             (b[2] as u32);
-        // word = word
-        // println!("{:32b}", word);
         let mut bc: [u8; 4] = [0; 4];
         bc[0] = (word >> 18) as u8;
         bc[1] = (word << 14 >> 26) as u8;
         bc[2] = (word << 20 >> 26) as u8;
         bc[3] = (word << 26 >> 26) as u8;
-        // println!("{:?}", b);
-        out.push(bc[0]);
-        out.push(bc[1]);
-        out.push(bc[2]);
-        out.push(bc[3]);
+        edata.push(bc[0]);
+        edata.push(bc[1]);
+        edata.push(bc[2]);
+        edata.push(bc[3]);
     }
     print!("\n");
-    println!("{:?}", out);
-    let s: String = out.iter().map(|c| CHARMAP[*c as usize] as char).collect();
+    println!("{:?}", edata);
+    let s: String = edata.iter().map(|c| CHARMAP[*c as usize] as char).collect();
     println!("{}", s);
 
-    print!("\n");
+    println!("\nDecode");
+    let mut ddata: Vec<u8> = Vec::new();
+    for b in edata.chunks(4) {
+        let word: u32 =
+            ((b[0] as u32) << 18) |
+            ((b[1] as u32) << 12) |
+            ((b[2] as u32) << 6) |
+            (b[3] as u32);
+        let mut bc: [u8; 3] = [0; 3];
+        bc[0] = (word <<  8 >> 24) as u8;
+        bc[1] = (word << 16 >> 24) as u8;
+        bc[2] = (word << 24 >> 24) as u8;
+        ddata.push(bc[0]);
+        ddata.push(bc[1]);
+        ddata.push(bc[2]);
+    }
+    println!("{:?}", ddata);
+    let s: String = ddata.iter().map(|c| *c as char).collect();
+    println!("{:?}", s);
 
-    assert!(false);
+    assert_eq!(string, s);
 }
