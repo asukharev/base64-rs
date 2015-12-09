@@ -1,4 +1,17 @@
 [package]
+name          = "base64-rs"
+version       = "0.1.0"
+readme        = "README.md"
+license       = "GPL-3.0"
+authors       = ["Alexander Sukharev"]
+repository    = "https://github.com/asukharev/base64-rs"
+description   = "Encodes and decodes base64"
+keywords      = ["base64", "encode", "decode"]
+documentation = "https://github.com/asukharev/base64-rs/blob/master/README.md"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+]
+
+[lib]
 name = "base64"
-version = "0.1.0"
-authors = ["Alexander Sukharev <sukharev@prognoz.ru>"]

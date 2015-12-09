@@ -21,7 +21,7 @@ fn lookup(c: u8) -> u8 {
     }
 }
 
-fn encode(bytes: &[u8]) -> String {
+pub fn encode(bytes: &[u8]) -> String {
     let mut encoded_data: Vec<u8> = Vec::new();
     for chunk in bytes.chunks(3) {
         let tmp_chunk: [u8; 3] = [
@@ -54,7 +54,7 @@ fn encode(bytes: &[u8]) -> String {
     encoded_data.iter().map(|c| CHARMAP[*c as usize] as char).collect()
 }
 
-fn decode(string: &String) -> Vec<u8> {
+pub fn decode(string: &String) -> Vec<u8> {
     let mut decoded_data: Vec<u8> = Vec::new();
     let bytes = string.as_bytes();
     for chunk in bytes.chunks(4) {
@@ -79,31 +79,4 @@ fn decode(string: &String) -> Vec<u8> {
         if out_chunk[2] != 0 { decoded_data.push(out_chunk[2]); };
     }
     decoded_data
-}
-
-#[test]
-fn it_works() {
-    let pairs = vec![
-        ("", ""),
-        ("f", "Zg=="),
-        ("fo", "Zm8="),
-        ("foo", "Zm9v"),
-        ("foob", "Zm9vYg=="),
-        ("fooba", "Zm9vYmE="),
-        ("foobar", "Zm9vYmFy"),
-        ("Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure.", "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4="),
-    ];
-
-    for pair in pairs.clone() {
-        println!("Encode {:?}", pair);
-        let encoded_string = encode(&pair.0.as_bytes());
-        assert_eq!(encoded_string, pair.1);
-    }
-
-    for pair in pairs.clone() {
-        println!("Decode {:?}", pair);
-        let decoded_data = decode(&pair.1.to_string());
-        let decoded_string: String = decoded_data.iter().map(|c| *c as char).collect();
-        assert_eq!(decoded_string, pair.0.to_string());
-    }
 }
