@@ -2,7 +2,7 @@
 name          = "base64-rs"
 version       = "0.1.0"
 readme        = "README.md"
-license       = "GPL-3.0"
+license       = "MIT"
 authors       = ["Alexander Sukharev"]
 repository    = "https://github.com/asukharev/base64-rs"
 description   = "Encodes and decodes base64"
