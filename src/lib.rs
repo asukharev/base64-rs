@@ -54,7 +54,7 @@ pub fn encode(bytes: &[u8]) -> String {
     encoded_data.iter().map(|c| CHARMAP[*c as usize] as char).collect()
 }
 
-pub fn decode(string: &String) -> Vec<u8> {
+pub fn decode(string: &str) -> Vec<u8> {
     let mut decoded_data: Vec<u8> = Vec::new();
     let bytes = string.as_bytes();
     for chunk in bytes.chunks(4) {

@@ -21,8 +21,8 @@ fn it_works() {
 
     for pair in pairs.clone() {
         println!("Decode {:?}", pair);
-        let decoded_data = base64::decode(&pair.1.to_string());
+        let decoded_data = base64::decode(&pair.1);
         let decoded_string: String = decoded_data.iter().map(|c| *c as char).collect();
-        assert_eq!(decoded_string, pair.0.to_string());
+        assert_eq!(decoded_string, pair.0);
     }
 }
